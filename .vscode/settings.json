@@ -1,0 +1,15 @@
+{
+      "plantuml.render": "Local",
+  "plantuml.trace.server": false,
+  "plantuml.server": "https://www.plantuml.com/plantuml",
+  "plantuml.command": "java",
+  "plantuml.exportFormat": "png",
+    "java.project.sourcePaths": ["src"],
+    "java.project.outputPath": "bin",
+    "java.project.referencedLibraries": [
+        "lib/**/*.jar"
+    ]
+}
+
+
+

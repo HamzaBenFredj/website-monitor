@@ -1,0 +1,65 @@
+@startuml
+
+' ==== Interfaces ====
+interface IResponseChannel {
+    +send(message: String)
+}
+
+interface ComparisonStrategy {
+    +hasChanged(oldContent: String, newContent: String): boolean
+}
+
+' ==== Channels (Observers) ====
+class MailChannel implements IResponseChannel
+class SmsChannel implements IResponseChannel
+
+' ==== Strategies ====
+class HtmlComparisonStrategy implements ComparisonStrategy
+class TextComparisonStrategy implements ComparisonStrategy
+class SizeComparisonStrategy implements ComparisonStrategy
+
+' ==== Core Classes ====
+class Subscription {
+    -website: URI
+    -content: String
+    -lastUpdate: LocalDateTime
+    -strategy: ComparisonStrategy
+    +CheckUpdate()
+}
+
+class User {
+    -name: String
+    -frequency: int
+    -lastNotification: LocalDateTime
+    -subscriptions: Map<Subscription, LocalDateTime>
+    -responseChannels: List<IResponseChannel>
+    +checkUpdate()
+    +notifyUser(message: String)
+    +addSubscription(subscription: Subscription)
+    +addResponseChannel(channel: IResponseChannel)
+}
+
+class WebsiteMonitor {
+    -users: Map<String, User>
+    -subscriptions: Map<String, Subscription>
+    +registerUser(...)
+    +start()
+}
+
+' ==== Relationships ====
+User --> IResponseChannel : uses to notify
+User --> Subscription : subscribes to
+Subscription --> ComparisonStrategy : uses for comparison
+
+WebsiteMonitor --> User : manages
+WebsiteMonitor --> Subscription : manages
+WebsiteMonitor --> ComparisonStrategy : injects into
+
+IResponseChannel <|.. MailChannel
+IResponseChannel <|.. SmsChannel
+
+ComparisonStrategy <|.. HtmlComparisonStrategy
+ComparisonStrategy <|.. TextComparisonStrategy
+ComparisonStrategy <|.. SizeComparisonStrategy
+
+@enduml
