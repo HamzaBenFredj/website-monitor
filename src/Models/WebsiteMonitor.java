@@ -17,10 +17,10 @@ import Strategies.TextComparisonStrategy;
 
 public class WebsiteMonitor {
 
-    HashMap<String, User> users = new HashMap<>();
+    public HashMap<String, User> users = new HashMap<>();
     HashMap<String, Subscription> subscriptions = new HashMap<>();
 
-    private WebsiteMonitor() {}
+    public WebsiteMonitor() {}
 
     public void start() {
         System.out.println("WebsiteMonitor started!");
@@ -73,7 +73,7 @@ public class WebsiteMonitor {
     private void notifyLoop() {
         users.values().forEach(User::checkUpdate);
     }
-    //</editor-fold>
+
 
     public static void main(String[] args) {
         WebsiteMonitor monitor = new WebsiteMonitor();
